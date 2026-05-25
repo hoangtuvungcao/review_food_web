@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1d5b75" />
+      <stop offset="100%" stop-color="#14354a" />
+    </linearGradient>
+    <radialGradient id="shapeGrad" cx="50%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#ff7f68" />
+      <stop offset="100%" stop-color="#c2222d" />
+    </radialGradient>
+    <linearGradient id="starGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffe28a" />
+      <stop offset="100%" stop-color="#d89e20" />
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <rect width="100" height="100" rx="24" fill="url(#bgGrad)" />
+  <path d="M50 16 C35.5 16 24.5 28.5 24.5 43 C24.5 64 50 84 50 84 C50 84 75.5 64 75.5 43 C75.5 28.5 64.5 16 50 16 Z" fill="url(#shapeGrad)" filter="url(#shadow)" />
+  <path d="M50 22 C38.5 22 29.5 31.5 29.5 43 C29.5 58.5 50 74 50 74 C50 74 70.5 58.5 70.5 43 C70.5 31.5 61.5 22 50 22 Z" fill="rgba(255,255,255,0.12)" />
+  <circle cx="50" cy="42" r="15" fill="rgba(255,255,255,0.18)" />
+  <circle cx="50" cy="42" r="10" fill="#ffffff" opacity="0.94" />
+  <polygon points="50,30 53.2,38.5 62,39 55.5,44.5 58,53.5 50,48.5 42,53.5 44.5,44.5 38,39 46.8,38.5" fill="url(#starGrad)" filter="url(#shadow)" />
+  <circle cx="34" cy="28" r="4" fill="rgba(255,255,255,0.28)" />
+  <circle cx="70" cy="28" r="3" fill="rgba(255,255,255,0.22)" />
+  <path d="M30 70 C38 77 44 76 54 69" stroke="rgba(255,255,255,0.35)" stroke-width="2" fill="none" stroke-linecap="round" />
+  <path d="M42 63 L48 68 L58 62" stroke="rgba(255,255,255,0.65)" stroke-width="2" fill="none" stroke-linecap="round" />
+</svg>
