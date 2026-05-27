@@ -1,39 +1,149 @@
 <!DOCTYPE html>
-<html lang="vn">
-
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang chủ</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cẩm nang ẩm thực đường phố</title>
+  <link rel="icon" href="./favicon.ico">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="./css/style.css">
 </head>
-
 <body>
-    <header>
-        <img src="./images/logo/logo.svg" alt="Logo" class="logo">
-        <search-bar class="search-bar">
-            <input type="text" placeholder="Tìm kiếm...">
-            <button type="submit">Tìm</button>
-        </search-bar>
-        <nav>
-            <ul>
-                <li><a href="about.html">Tổng quan</a></li>
-                <li><a href="index.html">Trang chủ</a></li>
-            </ul>
-        </nav>
-        <button>Thêm</button>
-    </header>
-    <main>
-        <div id="map"></div>
-    </main>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="./js/main.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</body>
-<footer>
-    <p>&copy; 2026 Bản quyền thuộc về nhóm 1, trường đại học tây nguyên, khoa khtn&cn, nghành cntt.</p>
-</footer>
+  <div class="page">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Trang chủ">
+        <img src="./images/logo/logo.svg" alt="Logo nhóm 1">
+        <span>
+          <strong>Street Food Map</strong>
+          <small>Nhóm 1 - Chủ đề 19</small>
+        </span>
+      </a>
 
+      <nav class="main-nav" aria-label="Điều hướng chính">
+        <a href="index.html" class="nav-link active">Trang chủ</a>
+        <a href="about.html" class="nav-link">Tổng quan</a>
+        <button class="primary-button" id="openAddBtn" type="button">Thêm địa điểm</button>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      <section class="intro">
+        <div>
+          <p class="eyebrow">Cẩm nang ẩm thực đường phố</p>
+          <h1>Bản đồ quán ăn ngon và đánh giá từ người dùng</h1>
+        </div>
+
+        <form class="search-form" id="searchForm">
+          <input id="searchInput" type="search" placeholder="Tìm tên quán, món ăn..." autocomplete="off">
+          <button type="submit">Tìm</button>
+        </form>
+      </section>
+
+      <section class="app-layout" aria-label="Ứng dụng bản đồ ẩm thực">
+        <aside class="place-panel">
+          <div class="tab-list" role="tablist">
+            <button class="tab-button active" type="button" data-tab="nearby">Gợi ý gần đây</button>
+            <button class="tab-button" type="button" data-tab="trending">Top trending</button>
+          </div>
+
+          <div class="place-list" id="placeList" aria-live="polite"></div>
+        </aside>
+
+        <section class="map-panel" id="homeView">
+          <div class="map-header">
+            <div>
+              <h2>Bản đồ địa điểm</h2>
+              <p>Bấm vào ghim đỏ để xem popup và đánh giá chi tiết.</p>
+            </div>
+          </div>
+          <div class="leaflet-map" id="mainMap" aria-label="Bản đồ các quán ăn"></div>
+        </section>
+
+        <section class="add-panel hidden" id="addView" aria-label="Thêm địa điểm mới">
+          <div class="map-header">
+            <div>
+              <h2>Thêm địa điểm</h2>
+              <p>Nhập thông tin quán và click trên bản đồ để chọn vị trí.</p>
+            </div>
+          </div>
+
+          <form class="add-form" id="addPlaceForm">
+            <label>
+              <span>Tên quán</span>
+              <input id="newName" type="text" placeholder="Ví dụ: Bánh mì Góc Phố" required>
+            </label>
+
+            <label>
+              <span>Mô tả</span>
+              <textarea id="newDescription" placeholder="Món nổi bật, giá, giờ mở cửa..." required></textarea>
+            </label>
+
+            <label>
+              <span>Ảnh/logo quán</span>
+              <input id="newLogo" type="file" accept="image/*" required>
+            </label>
+
+            <div class="form-map-row">
+              <button type="button" id="chooseLocationBtn">Chọn vị trí trên bản đồ</button>
+              <button type="button" id="currentLocationBtn">Vị trí hiện tại</button>
+            </div>
+
+            <div class="mini-map" id="miniMap" aria-label="Bản đồ chọn vị trí"></div>
+
+            <div class="form-actions">
+              <button class="ghost-button" type="button" id="cancelAddBtn">Hủy</button>
+              <button class="primary-button" type="submit">Thêm quán</button>
+            </div>
+          </form>
+        </section>
+      </section>
+    </main>
+
+    <aside class="detail-drawer hidden" id="detailPanel" aria-label="Chi tiết quán ăn">
+      <button class="close-button" id="closeDetailBtn" type="button" aria-label="Đóng">×</button>
+
+      <div class="detail-heading">
+        <div class="place-avatar" id="detailLogo">Ăn</div>
+        <div>
+          <h2 id="detailName">Tên quán</h2>
+          <div class="stars" id="detailStars" aria-label="Đánh giá"></div>
+        </div>
+      </div>
+
+      <p class="detail-description" id="detailDescription"></p>
+
+      <form class="review-form" id="reviewForm">
+        <h3>Đánh giá quán</h3>
+        <input id="reviewUser" type="text" placeholder="Tên của bạn" required>
+        <div class="rating-input" id="ratingInput" aria-label="Chọn số sao">
+          <button type="button" data-value="1">★</button>
+          <button type="button" data-value="2">★</button>
+          <button type="button" data-value="3">★</button>
+          <button type="button" data-value="4">★</button>
+          <button type="button" data-value="5">★</button>
+        </div>
+        <textarea id="reviewComment" placeholder="Viết nhận xét..." required></textarea>
+        <label class="review-image-field">
+          <span>Ảnh món ăn tại quán (không bắt buộc)</span>
+          <input id="reviewImage" type="file" accept="image/*">
+        </label>
+        <button class="primary-button" type="submit">Gửi đánh giá</button>
+      </form>
+
+      <section class="reviews">
+        <h3>Review gần đây</h3>
+        <div id="reviewsList"></div>
+      </section>
+    </aside>
+
+    <footer class="site-footer">
+      <p>© 2026 Nhóm 1 - Cẩm nang ẩm thực đường phố</p>
+      <p>Nguyễn Văn Trọng · Lê Thuận · Trần Văn Trường</p>
+    </footer>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="./js/main.js"></script>
+</body>
 </html>
